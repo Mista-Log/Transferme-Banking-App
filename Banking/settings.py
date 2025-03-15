@@ -11,6 +11,11 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+import os
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -57,6 +62,7 @@ INSTALLED_APPS = [
     'notifications',
     'security',
     'analytics',
+    'corsheaders',
 ]
 
 AUTH_USER_MODEL = 'users.CustomUser'
@@ -71,7 +77,13 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 
     "allauth.account.middleware.AccountMiddleware",
+    'corsheaders.middleware.CorsMiddleware',
 ]
+
+# Site ID for Django AllAuth
+SITE_ID = 1
+
+CORS_ALLOW_ALL_ORIGINS = True
 
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
@@ -83,11 +95,11 @@ AUTHENTICATION_BACKENDS = (
 SITE_ID = 1  # Required for django-allauth
 
 # Google & Facebook App Credentials (Get these from the respective developer consoles)
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = 'your-google-client-id.apps.googleusercontent.com'
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'your-google-client-secret'
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = os.getenv("GOOGLE_OAUTH2_KEY")
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = os.getenv("GOOGLE_OAUTH2_SECRET")
 
-SOCIAL_AUTH_FACEBOOK_KEY = 'your-facebook-app-id'
-SOCIAL_AUTH_FACEBOOK_SECRET = 'your-facebook-app-secret'
+SOCIAL_AUTH_FACEBOOK_KEY = os.getenv("FACEBOOK_KEY")
+SOCIAL_AUTH_FACEBOOK_SECRET = os.getenv("FACEBOOK_SECRET")
 
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
