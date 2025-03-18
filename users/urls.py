@@ -1,6 +1,7 @@
 from django.urls import path, include
 from .views import UserSignupView, UserProfileUpdateView
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+from .views import DashboardAPIView
 
 urlpatterns = [
     # Custom Signup API
@@ -21,4 +22,7 @@ urlpatterns = [
 
     # AllAuth Social Authentication (Google & Facebook)
     path('auth/social/', include('allauth.socialaccount.urls')),
+
+    path("dashboard/", DashboardAPIView.as_view(), name="user-dashboard"),
 ]
+
