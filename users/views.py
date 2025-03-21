@@ -16,7 +16,6 @@ from notifications.models import Notification
 
 User = get_user_model()
 
-
 class UserSignupView(generics.CreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSignupSerializer

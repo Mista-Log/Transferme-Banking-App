@@ -26,3 +26,4 @@ urlpatterns = [
     path("dashboard/", DashboardAPIView.as_view(), name="user-dashboard"),
 ]
 
+
