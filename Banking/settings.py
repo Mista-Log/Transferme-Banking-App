@@ -63,6 +63,8 @@ INSTALLED_APPS = [
     'security',
     'analytics',
     'corsheaders',
+    'exchange',
+    
 ]
 
 AUTH_USER_MODEL = 'users.CustomUser'

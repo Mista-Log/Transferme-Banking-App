@@ -4,6 +4,9 @@ from . import views
 
 
 
-# urlpatterns = [
-#     path('initial-notification/', )
-# ]
+
+
+
+
+
+
