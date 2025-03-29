@@ -9,7 +9,6 @@ TRANSACTION_TYPES = (
     ("debit", "Debit"),
     ("cashback", "Cashback"),
 )
-
 class Transaction(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="transactions")
     card = models.ForeignKey(Card, on_delete=models.SET_NULL, null=True, blank=True, related_name="transactions")
@@ -35,7 +34,6 @@ TRANSACTION_CATEGORIES = (
     ("gaming", "Pay Google Play"),
     ("food", "Food & Drink"),
 )
-
 class PaymentTransaction(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="payments")
     category = models.CharField(max_length=20, choices=TRANSACTION_CATEGORIES)

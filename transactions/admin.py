@@ -5,5 +5,3 @@ from .models import PaymentTransaction
 
 admin.site.register(Transaction)
 admin.site.register(PaymentTransaction)
-
-
