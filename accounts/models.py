@@ -18,3 +18,25 @@ class Wallet(models.Model):
 
     def __str__(self):
         return f"{self.user.username} - ${self.balance}"
+    
+
+BANK_CHOICES = [
+    ("mcb", "MCB"),
+    ("alalah", "Alalah"),
+    ("soneri", "Soneri"),
+    ("bop", "BOP"),
+    ("hbl", "HBL"),
+    ("ubl", "UBL"),
+    ("jazzcash", "JazzCash"),
+    ("easypaisa", "EasyPaisa"),
+    ("mobicash", "MobiCash"),
+    ("payoneer", "Payoneer"),
+    ("paypal", "PayPal"),
+    ("stripe", "Stripe"),
+]
+
+class Bank(models.Model):
+    name = models.CharField(max_length=50, choices=BANK_CHOICES, unique=True)
+
+    def __str__(self):
+        return self.get_name_display()

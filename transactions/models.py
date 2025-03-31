@@ -1,6 +1,9 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 from cards.models import Card
+from accounts.models import Bank
+from notifications.utils import send_notification
+
 
 User = get_user_model()
 
@@ -42,3 +45,20 @@ class PaymentTransaction(models.Model):
 
     def __str__(self):
         return f"{self.user.username} - {self.category} ${self.amount}"
+    
+
+
+class MoneyTransfer(models.Model):
+    sender = models.ForeignKey(User, on_delete=models.CASCADE, related_name="sent_transfers")
+    receiver_account_number = models.CharField(max_length=20)
+    bank = models.ForeignKey(Bank, on_delete=models.CASCADE)
+    amount = models.DecimalField(max_digits=12, decimal_places=2)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.sender.username} to {self.receiver_account_number} - ${self.amount}"
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        # Automatically send a notification after saving
+        send_notification(self.sender, f"Transfer of ${self.amount} to {self.receiver_account_number} successful.")
