@@ -62,3 +62,21 @@ class MoneyTransfer(models.Model):
         super().save(*args, **kwargs)
         # Automatically send a notification after saving
         send_notification(self.sender, f"Transfer of ${self.amount} to {self.receiver_account_number} successful.")
+
+
+SIM_PROVIDERS = [
+    ('jazz', 'Jazz'),
+    ('telenor', 'Telenor'),
+    ('zong', 'Zong'),
+    ('ufone', 'Ufone'),
+]
+
+class SIMTopUp(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="sim_topups")
+    phone_number = models.CharField(max_length=15)
+    provider = models.CharField(max_length=20, choices=SIM_PROVIDERS)
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Top-up {self.amount} to {self.phone_number} ({self.get_provider_display()})"

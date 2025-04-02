@@ -6,6 +6,10 @@ from .models import PaymentTransaction
 from .serializers import PaymentTransactionSerializer
 from transactions.models import MoneyTransfer
 from transactions.serializers import MoneyTransferSerializer
+from transactions.models import SIMTopUp
+from transactions.serializers import SIMTopUpSerializer
+
+
 
 class TransactionListView(generics.ListAPIView):
     serializer_class = TransactionSerializer
@@ -32,3 +36,10 @@ class MoneyTransferCreateView(generics.CreateAPIView):
 
     def perform_create(self, serializer):
         serializer.save(sender=self.request.user)
+
+class SIMTopUpCreateView(generics.CreateAPIView):
+    serializer_class = SIMTopUpSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
