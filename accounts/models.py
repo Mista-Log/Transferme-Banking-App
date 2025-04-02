@@ -1,5 +1,8 @@
+import random
 from django.db import models
 from django.contrib.auth import get_user_model
+
+
 
 User = get_user_model()
 
@@ -40,3 +43,21 @@ class Bank(models.Model):
 
     def __str__(self):
         return self.get_name_display()
+
+
+class OTPVerification(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="otp_verification")
+    phone_number = models.CharField(max_length=15, unique=True)
+    otp_code = models.CharField(max_length=5)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def generate_otp(self):
+        """Generate a 5-digit OTP"""
+        self.otp_code = str(random.randint(10000, 99999))
+        self.save()
+        return self.otp_code
+
+    def is_valid(self):
+        """Check if OTP is still valid (e.g., within 5 minutes)"""
+        from django.utils.timezone import now
+        return (now() - self.created_at).seconds < 300  # 5 minutes
