@@ -64,6 +64,7 @@ INSTALLED_APPS = [
     'analytics',
     'corsheaders',
     'exchange',
+    'transfers',
     
 ]
 

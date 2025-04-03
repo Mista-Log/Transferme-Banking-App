@@ -30,6 +30,7 @@ urlpatterns = [
     # path('api/testers/', include('testers.urls')),
     path("api/transactions/", include("transactions.urls")),
     path("api/users/", include("users.urls")),
+    path("api/transfers", include("transfers.urls")),
 
     path('accounts/', include('allauth.urls')),
 
