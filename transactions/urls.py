@@ -9,6 +9,5 @@ urlpatterns = [
     path('payments/', PaymentTransactionListView.as_view(), name="payment-list"),
     path('transfer/', MoneyTransferCreateView.as_view(), name="money-transfer"),
     path('topup/', SIMTopUpCreateView.as_view(), name="sim-topup"),
+    path('statistics/', UserStatisticsView.as_view(), name='user-statistics'),
 ]
-
-

@@ -3,7 +3,12 @@ from django.contrib.auth import get_user_model
 from cards.models import Card
 from accounts.models import Bank
 from notifications.utils import send_notification
-
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
+# from .models import Transaction
+from django.db.models import Sum
+from datetime import datetime
 
 User = get_user_model()
 
@@ -82,3 +87,27 @@ class SIMTopUp(models.Model):
         return f"Top-up {self.amount} to {self.phone_number} ({self.get_provider_display()})"
 
 
+class UserStatisticsView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        user = request.user
+        transactions = Transaction.objects.filter(user=user)
+
+        # Aggregate Income & Expenses
+        income = transactions.filter(type='credit').aggregate(Sum('amount'))['amount__sum'] or 0
+        expense = transactions.filter(type='debit').aggregate(Sum('amount'))['amount__sum'] or 0
+
+        # Highest Expense
+        highest_expense = transactions.filter(type='debit').order_by('-amount').first()
+        top_expense = {
+            "amount": highest_expense.amount,
+            "description": highest_expense.description,
+            "date": highest_expense.timestamp
+        } if highest_expense else None
+
+        return Response({
+            "income": income,
+            "expense": expense,
+            "highest_expense": top_expense
+        })

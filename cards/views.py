@@ -1,6 +1,10 @@
 from rest_framework import generics, permissions
 from .models import Card
 from .serializers import CardSerializer
+from rest_framework import generics, permissions
+from .models import Card
+from .serializers import CardSerializer
+
 
 class CardListCreateView(generics.ListCreateAPIView):
     serializer_class = CardSerializer
@@ -19,3 +23,8 @@ class CardDeleteView(generics.DestroyAPIView):
 
     def get_queryset(self):
         return Card.objects.filter(user=self.request.user)
+
+class CardCreateView(generics.CreateAPIView):
+    queryset = Card.objects.all()
+    serializer_class = CardSerializer
+    permission_classes = [permissions.IsAuthenticated]
