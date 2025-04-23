@@ -64,6 +64,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'exchange',
     'transfers',
+    'atm',
     
 ]
 
